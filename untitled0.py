@@ -2,7 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import scipy as scipy
-  
+   
 a=30
 N=1000
 x=np.linspace(-a,a,N)
