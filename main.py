@@ -27,30 +27,15 @@ T_vac=300           #Vacuum (inside tube) absolute temperature (in K)
 R_eva=A_eva*np.exp(-qo/(K*T_fil))  #Evaporation rate (in g/m^2*s)
 
 """Pressure buildup"""
-t_elap=60*60*24*365*5 #Time elapsed (in s)
+t_elap=60*60*24*365*5        #Time elapsed (in s)
 m_eva_tot=R_eva*t_elap*A_fil #Total evaporated mass (in g)
-n=m_eva_tot/A_tungsten #Number of moles of evaporated filament
-P=n*R_gas*T_vac/V_tube #Pressure (in atm)
+n=m_eva_tot/A_tungsten       #Number of moles of evaporated filament
+P=n*R_gas*T_vac/V_tube       #Pressure (in atm)
 
+"""Dielectric strength"""
+DE_vac=1e12                  #Dielectric strength (in MV/m) of vacuum
+DE_air=3                     #Dielectric strength (in MV/m) of air (at 1 atm)
+DE=(1-P)*DE_vac +P*DE_air    #Dielectric strength (in MV/m) for arbitrary pressure
+V_arc=DE*L_arc               #Arcing voltage (in MV)
 
-
-
-"""
-a=30
-N=1000
-x=np.linspace(-a,a,N)
-y=np.array([1 if np.abs(n)<=1 else 0 for n in x])
-
-Tstep=2*a/N
-X=np.linspace(-1/(Tstep*2),1/(Tstep*2),N)
-Y=scipy.fft.fftshift(scipy.fft(y))
-
-
-plt.figure()
-plt.plot(x,y)
-plt.show()
-
-plt.figure()
-plt.plot(X,np.abs(Y))
-plt.show()
-"""
+print(V_arc)
