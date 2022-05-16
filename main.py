@@ -13,7 +13,10 @@ A_eva=708475900690                      #Evaporation constant (in g/m^2*s)
 T_vac=300                               #Vacuum (inside tube) absolute temperature (in K)
 A_tube=0                                #Total inner area of the tube (in m^2)
 AAOR=0                                  #Average area outgassing rate (in mbar.l/s/cm^2)
-
+#number of simulation runs
+#Parameters values and stats
+#use class if you need static variables
+#L=10cm dia=1 inch (outer dimensions)
 """Module instantiation"""
 Arcing_M=MC.ArcingModule(L_arc,V_tube,A_fil, qo,A_eva, T_vac,A_tube,AAOR)
 
@@ -22,7 +25,7 @@ t_step=365*24*3600*2 #time step (in s)
 T_fil=2000           #Filament absolute temperature (in K)
 V_anode=50           #Applied anode voltage (in kV)
 
-#Arcing_M.step(t_step/4,T_fil,V_anode)
+#Arcing_M.step(t_step/3,T_fil,V_anode)
 for i in range(63072000):
     Arcing_M.step(1,T_fil,V_anode)
     if Arcing_M.failureCheck():

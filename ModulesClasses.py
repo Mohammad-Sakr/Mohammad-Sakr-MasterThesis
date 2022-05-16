@@ -28,17 +28,30 @@ class ArcingModule:
         self.Arcing_Timings=np.array([]) #Timestamp for arcing
     
     def step(self,t_step,T_fil,V_anode):
-        self.t_tot_elap=self.t_tot_elap+t_step #Accumulates time
-        """Evaporation rate"""
-        R_eva=self.A_eva*np.exp(-self.qo/(K*T_fil))  #Evaporation rate (in g/m^2*s)
+        """This function calculates...
+        Input parameters:
+            t_step(integer-seconds):Time step in seconds
+            T_fil():...
+            V_anode()...
+        Output parameters:
+            """
+        
+        #Accumulates time
+        self.t_tot_elap=self.t_tot_elap+t_step 
+        
+        #Calculating the evaporation rate (in g/m^2*s)
+        R_eva=self.A_eva*np.exp(-self.qo/(K*T_fil))
+        
         """Pressure buildup"""
         self.m_eva_tot=self.m_eva_tot+R_eva*t_step*self.A_fil #Total evaporated mass (in g)
         n=self.m_eva_tot/A_tungsten                      #Number of moles of evaporated filament
         P_atm=n*R_gas*self.T_vac/self.V_tube             #Pressure (in atm)
-        P_mbar=P_atm*1.01e3                              #Pressure (in mbar)
+        P_mbar=P_atm*1.01e3    
+                          #Pressure (in mbar)
         """Outgassing"""
         self.P_outgas_tot=self.P_outgas_tot+self.AAOR*t_step*self.A_tube*1e4/self.V_tube
         P_mbar=P_mbar+self.P_outgas_tot #Modified pressure (outgassing)
+        
         """Dielectric strength"""
         V_arc=np.interp(np.log10(P_mbar),np.log10(P_breakdown),V_breakdown*(1000*self.L_arc)) #Required voltage for arcing (in kV)
         V_arc_stat=V_arc*np.random.weibull(5)  #Adding statistical nature for V_arc
